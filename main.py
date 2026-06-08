@@ -1,8 +1,6 @@
 import telebot
 
-# ضع هنا التوكن الخاص بك بين علامات التنصيص
-TOKEN = '8692993746:AAG-A3Cp7jt-toEyC5a5kWrfe8FwyduXlF0
-'
+TOKEN = '8692993746:AAG-A3Cp7jt-toEyC5a5kWrfe8FwyduX1F0'
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])

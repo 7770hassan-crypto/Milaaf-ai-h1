@@ -20,7 +20,7 @@ t = Thread(target=run)
 t.start()
 
 # --- كود البوت ---
-API_TOKEN = '8692993746:AAG-A3Cp7jt-toEyC5a5kWrfe8FwyduXlF0' 
+API_TOKEN = '8692993746:AAFNiVzogov6a7KJUHzRkpiBUffh-GXZenw' 
 bot = telebot.TeleBot(API_TOKEN)
 
 @bot.message_handler(commands=['start'])

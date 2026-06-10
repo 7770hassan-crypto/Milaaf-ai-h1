@@ -1,31 +1,18 @@
-import os
 import telebot
-from flask import Flask
-from threading import Thread
 
-# هذا الجزء يفتح منفذ (Port) ليرضي Render
-app = Flask('')
+# التوكن الخاص بك
+TOKEN = '8692993746:AAFNiVzogov6a7KJUHzRkpiBUffh-GXZenw'
+bot = telebot.TeleBot(TOKEN)
 
-@app.route('/')
-def home():
-    return "Milaaf AI is running!"
-
-def run():
-    # Render يخصص دائماً متغير اسمه PORT، نستخدمه هنا
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port)
-
-# تشغيل السيرفر في الخلفية
-t = Thread(target=run)
-t.start()
-
-# --- كود البوت ---
-API_TOKEN = '8692993746:AAFNiVzogov6a7KJUHzRkpiBUffh-GXZenw' 
-bot = telebot.TeleBot(API_TOKEN)
-
+# ترحيب عند بدء البوت
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
-    bot.reply_to(message, "أهلاً يا أبا عامر! ميلاف يعمل الآن بنجاح.")
+    bot.reply_to(message, "أهلاً بك يا أبا عامر في ميلاف AI. أنا جاهز للخدمة!")
 
-# تشغيل البوت
-bot.infinity_polling()
+# رد تلقائي على أي رسالة
+@bot.message_handler(func=lambda message: True)
+def echo_all(message):
+    bot.reply_to(message, "أبشر، وصلتني رسالتك يا أبا عامر، سأعالجها قريباً.")
+
+print("البوت يعمل الآن...")
+bot.infinity_polling() 

@@ -1,18 +1,26 @@
 import telebot
+from flask import Flask
+import threading
 
-# التوكن الخاص بك
 TOKEN = '8692993746:AAFNiVzogov6a7KJUHzRkpiBUffh-GXZenw'
 bot = telebot.TeleBot(TOKEN)
+app = Flask(__name__)
 
-# ترحيب عند بدء البوت
+@app.route('/')
+def home():
+    return "Milaaf is running!"
+
 @bot.message_handler(commands=['start'])
-def send_welcome(message):
-    bot.reply_to(message, "أهلاً بك يا أبا عامر في ميلاف AI. أنا جاهز للخدمة!")
+def start(message):
+    bot.reply_to(message, "ميلاف يعمل الآن!")
 
-# رد تلقائي على أي رسالة
-@bot.message_handler(func=lambda message: True)
-def echo_all(message):
-    bot.reply_to(message, "أبشر، وصلتني رسالتك يا أبا عامر، سأعالجها قريباً.")
+# تشغيل البوت في الخلفية
+def run_bot():
+    bot.remove_webhook()
+    bot.infinity_polling()
 
-print("البوت يعمل الآن...")
-bot.infinity_polling() 
+if __name__ == '__main__':
+    # تشغيل البوت في خيط (Thread) منفصل
+    threading.Thread(target=run_bot).start()
+    # تشغيل سيرفر Flask لترضية رندر
+    app.run(host='0.0.0.0', port=5000)

@@ -1,10 +1,25 @@
+import os
 import telebot
+from flask import Flask
+import threading
+
 TOKEN = '8692993746:AAFNiVzogov6a7KJUHzRkpiBUffh-GXZenw'
 bot = telebot.TeleBot(TOKEN)
+app = Flask(__name__)
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    bot.reply_to(message, "منصة ميلاف جاهزة ومستعدة للعمل!")
+# هذا المسار يخدع رندر ويجعله يظن أن السيرفر يعمل بشكل صحيح
+@app.route('/')
+def home():
+    return "Milaaf-ai is running!"
 
-print("البوت يعمل الآن...")
-bot.infinity_polling()
+# تنظيف أي اتصال قديم (يحل مشكلة الـ 409)
+bot.remove_webhook()
+
+def run_bot():
+    bot.infinity_polling()
+
+if __name__ == '__main__':
+    # تشغيل البوت في الخلفية
+    threading.Thread(target=run_bot).start()
+    # تشغيل السيرفر على المنفذ الذي يطلبه رندر
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))

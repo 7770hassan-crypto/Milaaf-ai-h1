@@ -1,16 +1,16 @@
 import telebot
 import os
 
-# ضع التوكين الخاص بك هنا بين علامتي التنصيص
+# التوكين هنا (ضع التوكين الجديد)
 TOKEN = '8692993746:AAFNiVzogov6a7KJUHzRkpiBUffh-GXZenw'
 
-# إنشاء كائن البوت (هذا السطر هو الذي يحل مشكلة NameError)
+# تعريف البوت
 bot = telebot.TeleBot(TOKEN)
 
-# تنظيف أي اتصالات قديمة تسبب خطأ 409
+# إيقاف أي تداخل في الاتصال
 bot.remove_webhook()
 
-# تشغيل البوت
+# تشغيل البوت مع ضمان عدم التكرار
 if __name__ == '__main__':
-    print("البوت يعمل الآن يا أبا عامر...")
+    print("البوت جاهز للعمل")
     bot.infinity_polling(none_stop=True, skip_pending=True)
